@@ -1,0 +1,215 @@
+/* style renew */
+* {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+*,
+*:before,
+*:after {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.calc-container {
+	width: 20rem;
+	height: 30rem;
+	border: 3px solid lightcoral;
+	padding: 1rem;
+}
+.calc-display {
+	width: 100%;
+	height: 5rem;
+	border: 2px solid lightgrey;
+	margin-bottom: 1rem;
+}
+.calc-display--top {
+	background-color: lightsalmon;
+	width: 100%;
+	height: 40%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	padding: 5%;
+	color: rgb(229, 229, 229);
+	font-size: 1rem;
+}
+.calc-display--bottom {
+	background-color: coral;
+	width: 100%;
+	height: 60%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	padding: 5%;
+	color: rgb(244, 244, 244);
+	font-size: 1.3rem;
+}
+.calc-btns--container {
+	width: 100%;
+	/* border: 2px solid lightgrey; */
+	height: max-content;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: auto;
+	grid-template-areas:
+		'negative delete divide multipl'
+		'seven eight nine minus'
+		'four five six plus'
+		'one two three equal'
+		'c zer dott equal';
+	gap: 5%;
+}
+.num-btn {
+	position: relative;
+	border: 2px solid lightcoral;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.3rem;
+	font-weight: bold;
+	overflow: hidden;
+	width: 3.5rem;
+	height: 3.5rem;
+	transition: all ease-in 0.2s;
+}
+.num-btn::after {
+	position: absolute;
+	content: '';
+	background-color: rgb(124, 51, 51);
+	border: 2px solid lightcoral;
+	width: 1.5rem;
+	height: 1.5rem;
+	bottom: -0.7rem;
+	right: -0.7rem;
+	rotate: 45deg;
+}
+
+.num-btn:hover {
+	cursor: pointer;
+	background-color: rgb(181, 102, 102);
+	color: white;
+}
+
+.symbl-btn {
+	position: relative;
+	border: 2px solid lightcoral;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.3rem;
+	font-weight: bold;
+	overflow: hidden;
+	width: 3.5rem;
+	height: 3.5rem;
+	transition: all ease-in 0.2s;
+}
+.symbl-btn:hover {
+	cursor: pointer;
+	background-color: rgb(181, 102, 102);
+	color: white;
+}
+
+.symbl-btn::after {
+	position: absolute;
+	content: '';
+	background-color: rgb(124, 51, 51);
+	border: 2px solid lightcoral;
+	width: 1.5rem;
+	height: 1.5rem;
+	bottom: -0.7rem;
+	right: -0.7rem;
+	rotate: 45deg;
+}
+
+.btn-negative {
+	grid-area: negative;
+}
+.btn-back {
+	grid-area: delete;
+}
+.btn-divide {
+	grid-area: divide;
+}
+.btn-multiply {
+	grid-area: multipl;
+}
+.btn-7 {
+	grid-area: seven;
+}
+.btn-8 {
+	grid-area: eight;
+}
+.btn-9 {
+	grid-area: nine;
+}
+.btn-minus {
+	grid-area: minus;
+}
+.btn-4 {
+	grid-area: four;
+}
+.btn-5 {
+	grid-area: five;
+}
+.btn-6 {
+	grid-area: six;
+}
+.btn-plus {
+	grid-area: plus;
+}
+.btn-1 {
+	grid-area: one;
+}
+.btn-2 {
+	grid-area: two;
+}
+.btn-3 {
+	grid-area: three;
+}
+.btn-equals {
+	grid-area: equal;
+	position: relative;
+	border: 2px solid lightcoral;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.3rem;
+	font-weight: bold;
+	overflow: hidden;
+	transition: all ease-in 0.2s;
+}
+.btn-equals:hover {
+	cursor: pointer;
+	background-color: rgb(181, 102, 102);
+	color: white;
+}
+.btn-equals::after {
+	position: absolute;
+	content: '';
+	background-color: rgb(124, 51, 51);
+	border: 2px solid lightcoral;
+	width: 1.5rem;
+	height: 1.5rem;
+	bottom: -0.7rem;
+	right: -0.7rem;
+	rotate: 45deg;
+}
+.btn-c {
+	grid-area: c;
+	color: red;
+}
+.btn-0 {
+	grid-area: zer;
+}
+.btn-dot {
+	grid-area: dott;
+}
