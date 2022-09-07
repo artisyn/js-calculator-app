@@ -48,18 +48,27 @@ const handleCalc = (num1, symbol, num2) => {
 	switch (symbol) {
 		case '+':
 			result = +num1 + +num2;
-
 			break;
-
-		default:
+		case '-':
+			result = +num1 - +num2;
+			break;
+		case '*':
+			result = +num1 * +num2;
+			break;
+		case '/':
+			result = +num1 / +num2;
 			break;
 	}
 
 	return result;
 };
 
-// Main logic
+const clearBothDisplays = () => {
+	displayBottom.innerText = displayTop.innerHTML = '';
+};
 
+// Main logic
+let concatEnabled = false; // gives an option to change number one time
 // Numbers
 const handleNumClick = (e) => {
 	console.log(e.target.innerText);
@@ -67,8 +76,29 @@ const handleNumClick = (e) => {
 	let strBottom = displayBottom.innerText;
 	let strTop = displayTop.innerText;
 
+	// dot logic
+	if (number === '.') {
+		if (strBottom.length === 0) {
+			displayBottom.innerText = `0.`;
+			return;
+		}
+		if (strBottom.includes('.')) return;
+		if (lastElement(strBottom) === '.') return;
+	}
+
 	if (isASybmol(lastElement(strTop))) {
-		displayBottom.innerText = number;
+		if (!concatEnabled) {
+			concatEnabled = !concatEnabled;
+			displayBottom.innerText = number;
+			return;
+		}
+		displayBottom.innerText += e.target.innerText;
+		return;
+	}
+	// checking if last operation was complete
+	if (lastElement(strTop) === '=') {
+		clearBothDisplays();
+		displayBottom.innerText += e.target.innerText;
 		return;
 	}
 	displayBottom.innerText += e.target.innerText;
@@ -84,6 +114,7 @@ const handleSymbolClick = (e) => {
 	let strTop = displayTop.innerText;
 	// symbol C
 	if (symbol === 'C') {
+		concatEnabled = false;
 		displayBottom.innerText = '';
 		displayTop.innerText = '';
 		return;
@@ -104,6 +135,11 @@ const handleSymbolClick = (e) => {
 	}
 
 	// All the rest symbols
+	if (lastElement(strTop) === symbol && concatEnabled) {
+		handleEqualsFromSymbol();
+		return;
+	}
+
 	if (lastElement(strTop) === symbol) return;
 	if (isASybmol(lastElement(strTop))) {
 		const firstEl = strTop.split(' ')[0];
@@ -121,8 +157,23 @@ const handleEqualsClick = (e) => {
 	if (strBottom && isASybmol(lastElement(strTop))) {
 		const [numLeft, symbol] = strTop.split(' ');
 		const numRight = strBottom;
+		displayTop.innerText = `${strTop} ${strBottom} =`;
 		displayBottom.innerText = handleCalc(numLeft, symbol, numRight);
 	}
+	concatEnabled = false;
+};
+const handleEqualsFromSymbol = () => {
+	let strBottom = displayBottom.innerText;
+	let strTop = displayTop.innerText;
+	// check if operation is possible
+	if (strBottom && isASybmol(lastElement(strTop))) {
+		const [numLeft, symbol] = strTop.split(' ');
+		const numRight = strBottom;
+		const result = handleCalc(numLeft, symbol, numRight);
+		displayTop.innerText = `${result} ${lastElement(strTop)}`;
+		displayBottom.innerText = result;
+	}
+	concatEnabled = false;
 };
 
 // adding Event Listeners

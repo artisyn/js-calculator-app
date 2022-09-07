@@ -134,8 +134,31 @@ body {
 	grid-area: negative;
 }
 .btn-back {
+	color: white;
 	grid-area: delete;
+	position: relative;
 }
+.backspace-white {
+	opacity: 0;
+}
+
+.btn-back:hover {
+	color: rgb(181, 102, 102);
+}
+.btn-back:hover > .backspace-black {
+	opacity: 0;
+}
+.btn-back:hover > .backspace-white {
+	opacity: 1;
+}
+
+.btn-back > img {
+	pointer-events: none;
+	position: absolute;
+	width: 50%;
+	height: 50%;
+}
+
 .btn-divide {
 	grid-area: divide;
 }
