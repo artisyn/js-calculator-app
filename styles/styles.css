@@ -11,53 +11,156 @@
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
+:root {
+	--borderColor: #b2493b;
+	--borderColorAlternative: #8be4f0;
+	--btnColorLight: #151016;
+	--btnColorLight-after: #712d27;
+	--displayBottomColor: #160315;
+	--displayTopColor: #120319;
+	--displayBorderColor: #551523;
+	--equalsBackgroundColor: linear-gradient(
+		to bottom,
+		#0b2237,
+		#153249,
+		#1f445a,
+		#29566c,
+		#35697d
+	);
+	--btnSymbolColor-after: #7dd4e158;
+	/* --btnColorAlternative
+	--btnColorEqual
+	
+	--btnColorAlternative-after
+	--btnColorEqual-after */
+}
 
 body {
 	min-height: 100vh;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	background-image: linear-gradient(
+		to bottom,
+		#311518,
+		#28131c,
+		#1d121c,
+		#130f18,
+		#080a11
+	);
 }
+/* glitch effect */
+
+.glitch {
+	margin-bottom: 3rem;
+	font-size: 2rem;
+	color: white;
+	animation: glitch 5s linear infinite;
+}
+
+@keyframes glitch {
+	2%,
+	64% {
+		transform: translate(2px, 0) skew(0deg);
+	}
+	4%,
+	60% {
+		transform: translate(-2px, 0) skew(0deg);
+	}
+	62% {
+		transform: translate(0, 0) skew(5deg);
+	}
+}
+
+.glitch:before,
+.glitch:after {
+	content: attr(title);
+	position: absolute;
+	left: 0;
+}
+
+.glitch:before {
+	animation: glitchTop 2s linear infinite;
+	clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+	-webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+@keyframes glitchTop {
+	2%,
+	64% {
+		transform: translate(2px, -2px);
+	}
+	4%,
+	60% {
+		transform: translate(-2px, 2px);
+	}
+	62% {
+		transform: translate(13px, -1px) skew(-13deg);
+	}
+}
+
+.glitch:after {
+	animation: glitchBotom 1.5s linear infinite;
+	clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+	-webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+}
+
+@keyframes glitchBotom {
+	2%,
+	64% {
+		transform: translate(-2px, 0);
+	}
+	4%,
+	60% {
+		transform: translate(-2px, 0);
+	}
+	62% {
+		transform: translate(-22px, 5px) skew(21deg);
+	}
+}
+/* styles */
 
 .calc-container {
 	width: 20rem;
-	height: 30rem;
-	border: 3px solid lightcoral;
+	height: fit-content;
+	border: 3px solid var(--borderColor);
 	padding: 1rem;
+	background-color: var(--btnColorLight);
 }
 .calc-display {
 	width: 100%;
-	height: 5rem;
-	border: 2px solid lightgrey;
+	height: 9rem;
+	border: 2px solid var(--displayBorderColor);
 	margin-bottom: 1rem;
 }
 .calc-display--top {
-	background-color: lightsalmon;
+	background-color: var(--displayTopColor);
 	width: 100%;
 	height: 40%;
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
 	padding: 5%;
-	color: rgb(229, 229, 229);
-	font-size: 1rem;
+	color: var(--borderColorAlternative);
+	font-size: 1.4rem;
 }
 .calc-display--bottom {
-	background-color: coral;
+	background-color: var(--displayBottomColor);
 	width: 100%;
 	height: 60%;
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
 	padding: 5%;
-	color: rgb(244, 244, 244);
-	font-size: 1.3rem;
+	color: var(--borderColorAlternative);
+	font-size: 1.7rem;
 }
 .calc-btns--container {
 	width: 100%;
-	/* border: 2px solid lightgrey; */
-	height: max-content;
+	height: 21rem;
 	display: grid;
+	justify-items: center;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-template-rows: auto;
 	grid-template-areas:
@@ -66,17 +169,19 @@ body {
 		'four five six plus'
 		'one two three equal'
 		'c zer dott equal';
-	gap: 5%;
+	column-gap: 6%;
+	row-gap: 4%;
 }
 .num-btn {
 	position: relative;
-	border: 2px solid lightcoral;
+	border: 2px solid var(--borderColor);
+	color: var(--borderColorAlternative);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	font-size: 1.3rem;
 	font-weight: bold;
-	overflow: hidden;
+	/* overflow: hidden; */
 	width: 3.5rem;
 	height: 3.5rem;
 	transition: all ease-in 0.2s;
@@ -84,57 +189,59 @@ body {
 .num-btn::after {
 	position: absolute;
 	content: '';
-	background-color: rgb(124, 51, 51);
-	border: 2px solid lightcoral;
-	width: 1.5rem;
-	height: 1.5rem;
-	bottom: -0.7rem;
-	right: -0.7rem;
-	rotate: 45deg;
+	background-color: var(--btnColorLight);
+	border-left: 2px solid var(--borderColor);
+	width: 1rem;
+	height: 1.2rem;
+	bottom: -0.5rem;
+	right: -0.5rem;
+	rotate: 42deg;
+	z-index: 99;
 }
 
 .num-btn:hover {
 	cursor: pointer;
-	background-color: rgb(181, 102, 102);
-	color: white;
+	background-color: var(--btnColorLight-after);
+	/* color: var(--btnColorLight); */
 }
 
 .symbl-btn {
 	position: relative;
-	border: 2px solid lightcoral;
+	border: 2px solid var(--borderColorAlternative);
+	color: var(--borderColorAlternative);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	font-size: 1.3rem;
 	font-weight: bold;
-	overflow: hidden;
+	/* overflow: hidden; */
 	width: 3.5rem;
 	height: 3.5rem;
 	transition: all ease-in 0.2s;
 }
 .symbl-btn:hover {
 	cursor: pointer;
-	background-color: rgb(181, 102, 102);
-	color: white;
+	background-color: var(--btnSymbolColor-after);
 }
 
 .symbl-btn::after {
 	position: absolute;
 	content: '';
-	background-color: rgb(124, 51, 51);
-	border: 2px solid lightcoral;
-	width: 1.5rem;
-	height: 1.5rem;
-	bottom: -0.7rem;
-	right: -0.7rem;
-	rotate: 45deg;
+	background-color: var(--btnColorLight);
+	border-left: 2px solid var(--borderColorAlternative);
+	width: 1rem;
+	height: 1.2rem;
+	bottom: -0.5rem;
+	right: -0.5rem;
+	rotate: 42deg;
+	z-index: 99;
 }
 
 .btn-negative {
 	grid-area: negative;
 }
 .btn-back {
-	color: white;
+	color: var(--btnColorLight);
 	grid-area: delete;
 	position: relative;
 }
@@ -201,14 +308,17 @@ body {
 .btn-equals {
 	grid-area: equal;
 	position: relative;
-	border: 2px solid lightcoral;
+	border: 2px solid var(--borderColorAlternative);
+	color: var(--borderColorAlternative);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	font-size: 1.3rem;
 	font-weight: bold;
-	overflow: hidden;
+	/* overflow: hidden; */
 	transition: all ease-in 0.2s;
+	width: 3.5rem;
+	background: var(--equalsBackgroundColor);
 }
 .btn-equals:hover {
 	cursor: pointer;
@@ -218,17 +328,19 @@ body {
 .btn-equals::after {
 	position: absolute;
 	content: '';
-	background-color: rgb(124, 51, 51);
-	border: 2px solid lightcoral;
-	width: 1.5rem;
-	height: 1.5rem;
-	bottom: -0.7rem;
-	right: -0.7rem;
-	rotate: 45deg;
+	background-color: var(--btnColorLight);
+	border-left: 2px solid var(--borderColorAlternative);
+	width: 1rem;
+	height: 1.2rem;
+	bottom: -0.5rem;
+	right: -0.5rem;
+	rotate: 42deg;
+	z-index: 99;
 }
 .btn-c {
 	grid-area: c;
-	color: red;
+	background: var(--equalsBackgroundColor);
+	color: var(--borderColorAlternative);
 }
 .btn-0 {
 	grid-area: zer;

@@ -44,19 +44,24 @@ const lastElement = (str) => {
 	return trimmedStr[trimmedStr.length - 1];
 };
 const handleCalc = (num1, symbol, num2) => {
+	const number1 = +num1;
+	const number2 = +num2;
 	let result;
 	switch (symbol) {
 		case '+':
-			result = +num1 + +num2;
+			// trying to solve weird JS Calculation
+			// 10.10 + 10.20 = 20.299999999999997
+			// result = number1 + number2;
+			result = (number1 * 100 + number2 * 100) / 100;
 			break;
 		case '-':
-			result = +num1 - +num2;
+			result = number1 - number2;
 			break;
 		case '*':
-			result = +num1 * +num2;
+			result = number1 * number2;
 			break;
 		case '/':
-			result = +num1 / +num2;
+			result = number1 / number2;
 			break;
 	}
 
@@ -67,15 +72,51 @@ const clearBothDisplays = () => {
 	displayBottom.innerText = displayTop.innerHTML = '';
 };
 
+const adjustDisplaysFonts = () => {
+	let strBottom = displayBottom.innerText;
+	let strTop = displayTop.innerText;
+	// initial 1.4 1.7
+	// breakpoints
+
+	// Bottom display logic
+	if (strBottom.length >= 0 && strBottom.length <= 10) {
+		displayBottom.style.fontSize = '1.7rem';
+	}
+	if (strBottom.length >= 11 && strBottom.length <= 17) {
+		displayBottom.style.fontSize = '1.5rem';
+	}
+	if (strBottom.length >= 18 && strBottom.length <= 25) {
+		displayBottom.style.fontSize = '1rem';
+	}
+	if (strBottom.length >= 26 && strBottom.length <= 999) {
+		displayBottom.style.fontSize = '.5rem';
+	}
+
+	// Top Display logic
+	if (strTop.length >= 0 && strTop.length <= 20) {
+		displayTop.style.fontSize = '1.4rem';
+	}
+	if (strTop.length >= 21 && strTop.length <= 30) {
+		console.log(strTop.length);
+		displayTop.style.fontSize = '1.2rem';
+	}
+	if (strTop.length >= 31 && strTop.length <= 999) {
+		displayTop.style.fontSize = '.8rem';
+		return;
+	}
+};
+
 // Main logic
 let concatEnabled = false; // gives an option to change number one time
 // Numbers
-const handleNumClick = (e) => {
-	console.log(e.target.innerText);
-	let number = e.target.innerText;
+const handleNumClick = (val) => {
+	adjustDisplaysFonts();
+	// keyboard input logic
+	let number = val;
 	let strBottom = displayBottom.innerText;
 	let strTop = displayTop.innerText;
-
+	// set max char amount
+	if (strBottom.length > 15) return;
 	// dot logic
 	if (number === '.') {
 		if (strBottom.length === 0) {
@@ -92,24 +133,23 @@ const handleNumClick = (e) => {
 			displayBottom.innerText = number;
 			return;
 		}
-		displayBottom.innerText += e.target.innerText;
+		displayBottom.innerText += number;
 		return;
 	}
 	// checking if last operation was complete
 	if (lastElement(strTop) === '=') {
 		clearBothDisplays();
-		displayBottom.innerText += e.target.innerText;
+		displayBottom.innerText += number;
 		return;
 	}
-	displayBottom.innerText += e.target.innerText;
+	displayBottom.innerText += number;
 };
 
 // Symbols
-const handleSymbolClick = (e) => {
-	console.log(e.target.innerText);
-	// if no text return
-	if (displayBottom.innerText.length === 0) return;
-	let symbol = e.target.innerText;
+const handleSymbolClick = (val) => {
+	adjustDisplaysFonts();
+	console.log(val);
+	let symbol = val;
 	let strBottom = displayBottom.innerText;
 	let strTop = displayTop.innerText;
 	// symbol C
@@ -119,6 +159,8 @@ const handleSymbolClick = (e) => {
 		displayTop.innerText = '';
 		return;
 	}
+	// if no text return
+	if (displayBottom.innerText.length === 0) return;
 	// symbol <
 	if (symbol === '<') {
 		displayBottom.innerText = strBottom.slice(0, strBottom.length - 1);
@@ -151,7 +193,7 @@ const handleSymbolClick = (e) => {
 };
 
 // Equals
-const handleEqualsClick = (e) => {
+const handleEqualsClick = () => {
 	let strBottom = displayBottom.innerText;
 	let strTop = displayTop.innerText;
 	// check if operation is possible
@@ -162,6 +204,7 @@ const handleEqualsClick = (e) => {
 		displayBottom.innerText = handleCalc(numLeft, symbol, numRight);
 	}
 	concatEnabled = false;
+	adjustDisplaysFonts();
 };
 const handleEqualsFromSymbol = () => {
 	let strBottom = displayBottom.innerText;
@@ -175,86 +218,86 @@ const handleEqualsFromSymbol = () => {
 		displayBottom.innerText = result;
 	}
 	concatEnabled = false;
+	adjustDisplaysFonts();
 };
 
 // adding Event Listeners
 allNumBtns.forEach((btn) => {
 	btn.addEventListener('click', (e) => {
-		handleNumClick(e);
+		handleNumClick(e.target.innerText);
 	});
 });
 
 allSymblBtns.forEach((btn) => {
 	btn.addEventListener('click', (e) => {
-		handleSymbolClick(e);
+		handleSymbolClick(e.target.innerText);
 	});
 });
 
 btnEquals.addEventListener('click', (e) => {
-	handleEqualsClick(e);
+	handleEqualsClick();
 });
 
-//To do
 // keyboard access
-// window.addEventListener('keyup', (e) => {
-// 	console.log(e);
-// 	if (e.key === '1') {
-// 		handleNumClick('1');
-// 	}
-// 	if (e.key === '2') {
-// 		handleNumClick('2');
-// 	}
-// 	if (e.key === '3') {
-// 		handleNumClick('3');
-// 	}
-// 	if (e.key === '4') {
-// 		handleNumClick('4');
-// 	}
-// 	if (e.key === '5') {
-// 		handleNumClick('5');
-// 	}
-// 	if (e.key === '6') {
-// 		handleNumClick('6');
-// 	}
-// 	if (e.key === '7') {
-// 		handleNumClick('7');
-// 	}
-// 	if (e.key === '8') {
-// 		handleNumClick('8');
-// 	}
-// 	if (e.key === '9') {
-// 		handleNumClick('9');
-// 	}
-// 	if (e.key === '0') {
-// 		handleNumClick('0');
-// 	}
-// 	if (e.key === 'Backspace') {
-// 		handleSymbolClick('<');
-// 	}
-// 	if (e.key === '+') {
-// 		handleSymbolClick('+');
-// 	}
-// 	if (e.key === '-') {
-// 		handleSymbolClick('-');
-// 	}
-// 	if (e.key === '*') {
-// 		handleSymbolClick('*');
-// 	}
-// 	if (e.key === '/') {
-// 		handleSymbolClick('/');
-// 	}
-// 	if (e.key === '.') {
-// 		handleNumClick('.');
-// 	}
-// 	if (e.key === '=') {
-// 		// check what equals func to use
-// 		handleEqualsClick();
-// 		handleEqualsFromSymbol();
-// 	}
-// 	if (e.key === 'c') {
-// 		handleSymbolClick('C');
-// 	}
-// 	if (e.key === 'Escape') {
-// 		handleSymbolClick('C');
-// 	}
-// });
+window.addEventListener('keyup', (e) => {
+	console.log(e);
+	if (e.key === '1') {
+		handleNumClick('1');
+	}
+	if (e.key === '2') {
+		handleNumClick('2');
+	}
+	if (e.key === '3') {
+		handleNumClick('3');
+	}
+	if (e.key === '4') {
+		handleNumClick('4');
+	}
+	if (e.key === '5') {
+		handleNumClick('5');
+	}
+	if (e.key === '6') {
+		handleNumClick('6');
+	}
+	if (e.key === '7') {
+		handleNumClick('7');
+	}
+	if (e.key === '8') {
+		handleNumClick('8');
+	}
+	if (e.key === '9') {
+		handleNumClick('9');
+	}
+	if (e.key === '0') {
+		handleNumClick('0');
+	}
+	if (e.key === 'Backspace') {
+		handleSymbolClick('<');
+	}
+	if (e.key === '+') {
+		handleSymbolClick('+');
+	}
+	if (e.key === '-') {
+		handleSymbolClick('-');
+	}
+	if (e.key === '*') {
+		handleSymbolClick('*');
+	}
+	if (e.key === '/') {
+		handleSymbolClick('/');
+	}
+	if (e.key === '.') {
+		handleNumClick('.');
+	}
+	if (e.key === '=') {
+		// check what equals func to use
+		handleEqualsClick();
+		handleEqualsFromSymbol();
+	}
+	if (e.key === 'c') {
+		handleSymbolClick('C');
+	}
+	if (e.key === 'Escape') {
+		handleSymbolClick('C');
+	}
+});
