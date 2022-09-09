@@ -132,6 +132,7 @@ const handleSymbolClick = (e) => {
 			return;
 		}
 		displayBottom.innerText = `-${strBottom}`;
+		return;
 	}
 
 	// All the rest symbols
@@ -195,3 +196,65 @@ btnEquals.addEventListener('click', (e) => {
 
 //To do
 // keyboard access
+// window.addEventListener('keyup', (e) => {
+// 	console.log(e);
+// 	if (e.key === '1') {
+// 		handleNumClick('1');
+// 	}
+// 	if (e.key === '2') {
+// 		handleNumClick('2');
+// 	}
+// 	if (e.key === '3') {
+// 		handleNumClick('3');
+// 	}
+// 	if (e.key === '4') {
+// 		handleNumClick('4');
+// 	}
+// 	if (e.key === '5') {
+// 		handleNumClick('5');
+// 	}
+// 	if (e.key === '6') {
+// 		handleNumClick('6');
+// 	}
+// 	if (e.key === '7') {
+// 		handleNumClick('7');
+// 	}
+// 	if (e.key === '8') {
+// 		handleNumClick('8');
+// 	}
+// 	if (e.key === '9') {
+// 		handleNumClick('9');
+// 	}
+// 	if (e.key === '0') {
+// 		handleNumClick('0');
+// 	}
+// 	if (e.key === 'Backspace') {
+// 		handleSymbolClick('<');
+// 	}
+// 	if (e.key === '+') {
+// 		handleSymbolClick('+');
+// 	}
+// 	if (e.key === '-') {
+// 		handleSymbolClick('-');
+// 	}
+// 	if (e.key === '*') {
+// 		handleSymbolClick('*');
+// 	}
+// 	if (e.key === '/') {
+// 		handleSymbolClick('/');
+// 	}
+// 	if (e.key === '.') {
+// 		handleNumClick('.');
+// 	}
+// 	if (e.key === '=') {
+// 		// check what equals func to use
+// 		handleEqualsClick();
+// 		handleEqualsFromSymbol();
+// 	}
+// 	if (e.key === 'c') {
+// 		handleSymbolClick('C');
+// 	}
+// 	if (e.key === 'Escape') {
+// 		handleSymbolClick('C');
+// 	}
+// });
