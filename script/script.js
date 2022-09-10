@@ -1,7 +1,6 @@
-console.log('this works');
-// targeting variables
+// targeting DOM Elements
 
-// single variables
+// single elements
 const btnNegative = document.querySelector('.btn-negative');
 const btnDeleteLast = document.querySelector('.btn-back');
 const btnDivide = document.querySelector('.btn-divide');
@@ -29,7 +28,7 @@ const btnEquals = document.querySelector('.btn-equals');
 const displayTop = document.querySelector('.calc-display--top');
 const displayBottom = document.querySelector('.calc-display--bottom');
 
-// group variables
+// group elements
 const allNumBtns = document.querySelectorAll('.num-btn');
 const allSymblBtns = document.querySelectorAll('.symbl-btn');
 
@@ -55,7 +54,8 @@ const handleCalc = (num1, symbol, num2) => {
 			result = (number1 * 100 + number2 * 100) / 100;
 			break;
 		case '-':
-			result = number1 - number2;
+			// result = number1 - number2;
+			result = (number1 * 10 - number2 * 10) / 10;
 			break;
 		case '*':
 			result = number1 * number2;
@@ -75,15 +75,17 @@ const clearBothDisplays = () => {
 const adjustDisplaysFonts = () => {
 	let strBottom = displayBottom.innerText;
 	let strTop = displayTop.innerText;
-	// initial 1.4 1.7
 	// breakpoints
 
 	// Bottom display logic
-	if (strBottom.length >= 0 && strBottom.length <= 10) {
+	if (strBottom.length >= 0 && strBottom.length <= 9) {
 		displayBottom.style.fontSize = '1.7rem';
 	}
-	if (strBottom.length >= 11 && strBottom.length <= 17) {
-		displayBottom.style.fontSize = '1.5rem';
+	if (strBottom.length >= 10 && strBottom.length <= 12) {
+		displayBottom.style.fontSize = '1.4rem';
+	}
+	if (strBottom.length >= 13 && strBottom.length <= 17) {
+		displayBottom.style.fontSize = '1.2rem';
 	}
 	if (strBottom.length >= 18 && strBottom.length <= 25) {
 		displayBottom.style.fontSize = '1rem';
@@ -98,7 +100,7 @@ const adjustDisplaysFonts = () => {
 	}
 	if (strTop.length >= 21 && strTop.length <= 30) {
 		console.log(strTop.length);
-		displayTop.style.fontSize = '1.2rem';
+		displayTop.style.fontSize = '1.1rem';
 	}
 	if (strTop.length >= 31 && strTop.length <= 999) {
 		displayTop.style.fontSize = '.8rem';
@@ -107,14 +109,13 @@ const adjustDisplaysFonts = () => {
 };
 
 // Main logic
-let concatEnabled = false; // gives an option to change number one time
+let concatEnabled = false; // gives an option not to overrite number one time
 // Numbers
 const handleNumClick = (val) => {
 	adjustDisplaysFonts();
-	// keyboard input logic
-	let number = val;
-	let strBottom = displayBottom.innerText;
-	let strTop = displayTop.innerText;
+	const number = val;
+	const strBottom = displayBottom.innerText;
+	const strTop = displayTop.innerText;
 	// set max char amount
 	if (strBottom.length > 15) return;
 	// dot logic
@@ -148,10 +149,9 @@ const handleNumClick = (val) => {
 // Symbols
 const handleSymbolClick = (val) => {
 	adjustDisplaysFonts();
-	console.log(val);
-	let symbol = val;
-	let strBottom = displayBottom.innerText;
-	let strTop = displayTop.innerText;
+	const symbol = val;
+	const strBottom = displayBottom.innerText;
+	const strTop = displayTop.innerText;
 	// symbol C
 	if (symbol === 'C') {
 		concatEnabled = false;
@@ -194,8 +194,8 @@ const handleSymbolClick = (val) => {
 
 // Equals
 const handleEqualsClick = () => {
-	let strBottom = displayBottom.innerText;
-	let strTop = displayTop.innerText;
+	const strBottom = displayBottom.innerText;
+	const strTop = displayTop.innerText;
 	// check if operation is possible
 	if (strBottom && isASybmol(lastElement(strTop))) {
 		const [numLeft, symbol] = strTop.split(' ');
@@ -207,8 +207,8 @@ const handleEqualsClick = () => {
 	adjustDisplaysFonts();
 };
 const handleEqualsFromSymbol = () => {
-	let strBottom = displayBottom.innerText;
-	let strTop = displayTop.innerText;
+	const strBottom = displayBottom.innerText;
+	const strTop = displayTop.innerText;
 	// check if operation is possible
 	if (strBottom && isASybmol(lastElement(strTop))) {
 		const [numLeft, symbol] = strTop.split(' ');
@@ -238,66 +238,43 @@ btnEquals.addEventListener('click', (e) => {
 	handleEqualsClick();
 });
 
-// keyboard access
+// keyboard access logic
 window.addEventListener('keyup', (e) => {
-	console.log(e);
-	if (e.key === '1') {
-		handleNumClick('1');
-	}
-	if (e.key === '2') {
-		handleNumClick('2');
-	}
-	if (e.key === '3') {
-		handleNumClick('3');
-	}
-	if (e.key === '4') {
-		handleNumClick('4');
-	}
-	if (e.key === '5') {
-		handleNumClick('5');
-	}
-	if (e.key === '6') {
-		handleNumClick('6');
-	}
-	if (e.key === '7') {
-		handleNumClick('7');
-	}
-	if (e.key === '8') {
-		handleNumClick('8');
-	}
-	if (e.key === '9') {
-		handleNumClick('9');
-	}
-	if (e.key === '0') {
-		handleNumClick('0');
-	}
-	if (e.key === 'Backspace') {
-		handleSymbolClick('<');
-	}
-	if (e.key === '+') {
-		handleSymbolClick('+');
-	}
-	if (e.key === '-') {
-		handleSymbolClick('-');
-	}
-	if (e.key === '*') {
-		handleSymbolClick('*');
-	}
-	if (e.key === '/') {
-		handleSymbolClick('/');
-	}
-	if (e.key === '.') {
-		handleNumClick('.');
-	}
-	if (e.key === '=') {
-		// check what equals func to use
-		handleEqualsClick();
-		handleEqualsFromSymbol();
-	}
-	if (e.key === 'c') {
-		handleSymbolClick('C');
-	}
-	if (e.key === 'Escape') {
-		handleSymbolClick('C');
-	}
+	if (e.key === '1') handleNumClick('1');
+
+	if (e.key === '2') handleNumClick('2');
+
+	if (e.key === '3') handleNumClick('3');
+
+	if (e.key === '4') handleNumClick('4');
+
+	if (e.key === '5') handleNumClick('5');
+
+	if (e.key === '6') handleNumClick('6');
+
+	if (e.key === '7') handleNumClick('7');
+
+	if (e.key === '8') handleNumClick('8');
+
+	if (e.key === '9') handleNumClick('9');
+
+	if (e.key === '0') handleNumClick('0');
+
+	if (e.key === 'Backspace') handleSymbolClick('<');
+
+	if (e.key === '+') handleSymbolClick('+');
+
+	if (e.key === '-') handleSymbolClick('-');
+
+	if (e.key === '*') handleSymbolClick('*');
+
+	if (e.key === '/') handleSymbolClick('/');
+
+	if (e.key === '.') handleNumClick('.');
+
+	if (e.key === '=') handleEqualsClick();
+
+	if (e.key === 'c') handleSymbolClick('C');
+
+	if (e.key === 'Escape') handleSymbolClick('C');
 });

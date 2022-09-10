@@ -27,12 +27,15 @@
 		#29566c,
 		#35697d
 	);
+	--equalsBackgroundColor-after: linear-gradient(
+		to bottom,
+		#11121f,
+		#131523,
+		#161727,
+		#18192b,
+		#1b1b2f
+	);
 	--btnSymbolColor-after: #7dd4e158;
-	/* --btnColorAlternative
-	--btnColorEqual
-	
-	--btnColorAlternative-after
-	--btnColorEqual-after */
 }
 
 body {
@@ -53,9 +56,10 @@ body {
 /* glitch effect */
 
 .glitch {
+	font-family: 'Orbitron', sans-serif;
 	margin-bottom: 3rem;
 	font-size: 2rem;
-	color: white;
+	color: var(--borderColorAlternative);
 	animation: glitch 5s linear infinite;
 }
 
@@ -144,6 +148,7 @@ body {
 	padding: 5%;
 	color: var(--borderColorAlternative);
 	font-size: 1.4rem;
+	font-style: italic;
 }
 .calc-display--bottom {
 	background-color: var(--displayBottomColor);
@@ -155,6 +160,7 @@ body {
 	padding: 5%;
 	color: var(--borderColorAlternative);
 	font-size: 1.7rem;
+	font-family: 'Orbitron', sans-serif;
 }
 .calc-btns--container {
 	width: 100%;
@@ -171,6 +177,7 @@ body {
 		'c zer dott equal';
 	column-gap: 6%;
 	row-gap: 4%;
+	font-family: 'Orbitron', sans-serif;
 }
 .num-btn {
 	position: relative;
@@ -245,18 +252,9 @@ body {
 	grid-area: delete;
 	position: relative;
 }
-.backspace-white {
-	opacity: 0;
-}
 
 .btn-back:hover {
-	color: rgb(181, 102, 102);
-}
-.btn-back:hover > .backspace-black {
-	opacity: 0;
-}
-.btn-back:hover > .backspace-white {
-	opacity: 1;
+	color: #475c61;
 }
 
 .btn-back > img {
@@ -315,20 +313,18 @@ body {
 	align-items: center;
 	font-size: 1.3rem;
 	font-weight: bold;
-	/* overflow: hidden; */
 	transition: all ease-in 0.2s;
 	width: 3.5rem;
-	background: var(--equalsBackgroundColor);
+	background-image: var(--equalsBackgroundColor);
 }
 .btn-equals:hover {
 	cursor: pointer;
-	background-color: rgb(181, 102, 102);
-	color: white;
+	background-image: var(--equalsBackgroundColor-after);
 }
 .btn-equals::after {
 	position: absolute;
 	content: '';
-	background-color: var(--btnColorLight);
+	background: var(--btnColorLight);
 	border-left: 2px solid var(--borderColorAlternative);
 	width: 1rem;
 	height: 1.2rem;
@@ -341,6 +337,9 @@ body {
 	grid-area: c;
 	background: var(--equalsBackgroundColor);
 	color: var(--borderColorAlternative);
+}
+.btn-c:hover {
+	background: var(--equalsBackgroundColor-after);
 }
 .btn-0 {
 	grid-area: zer;
